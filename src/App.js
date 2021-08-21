@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Search from './components/Search'
+import { Typography } from '@material-ui/core'
 
 const App = () => {
   const [tempos, settempos] = useState([
@@ -26,12 +27,28 @@ const App = () => {
 
   return (
     <div>
-      <h1>Metronome</h1>
+      <Typography 
+        variant='h3'
+        color='primary'
+        align='center'
+        gutterBottom
+      >
+        Metronome
+      </Typography>
       <div>
-        <h2>Saved Tempos</h2>
+        <Typography 
+          variant='h4'
+          color='primary'
+        >
+          Saved Tempos
+        </Typography>
         <Search value={search} onChange={handleSearch}/>
         {filteredTempos.map(tempo => 
-          <div> {tempo.name}: {tempo.tempo} BPM </div>
+          <Typography
+            variant='body1'
+          >
+            {tempo.name}: {tempo.tempo} BPM 
+          </Typography>
         )}
       </div>
     </div>
