@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Search from './components/Search'
 import NewTempoForm from './components/NewTempoForm'
 import { Typography } from '@material-ui/core'
+import Tempos from './components/Tempos'
 
 const App = () => {
   const [tempos, setTempos] = useState([]) 
@@ -26,6 +27,7 @@ const App = () => {
   }
   const AddTempo = (event) => {
     const newTempoObject = {
+      id: tempos.length,
       name: newTempoName,
       tempo: newTempo,
     }
@@ -65,16 +67,7 @@ const App = () => {
         onSubmit={AddTempo}
       />
       <Search value={search} onChange={handleSearch}/>
-
-      {/* TODO: Refactor this into its own component */}
-      {filteredTempos.map(tempo => 
-        <Typography
-          variant='body1'
-        >
-          {tempo.name}: {tempo.tempo} BPM 
-        </Typography>
-      )}
-      
+      <Tempos tempos={filteredTempos} />
     </div>
   );
 }
