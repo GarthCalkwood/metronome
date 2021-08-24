@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import Search from './components/Search'
 import NewTempoForm from './components/NewTempoForm'
-import { Typography } from '@material-ui/core'
+import Typography from '@material-ui/core/Typography'
 import Tempos from './components/Tempos'
 import Metronome from './components/Metronome'
 import click1 from './audio/click1.wav'
+import Drawer from '@material-ui/core/Drawer'
+import { makeStyles } from '@material-ui/core'
 
 const App = () => {
   const [tempos, setTempos] = useState([]) 
@@ -58,51 +60,78 @@ const App = () => {
     }
     setPlaying(!playing)
   }
-  const filteredTempos = tempos.filter(
-    tempo => tempo.name.toLowerCase().includes(search.toLowerCase())
-  )
 
-  
   const click = new Audio(click1)
   const play = () => {
     click.play()
   }
+
+  const filteredTempos = tempos.filter(
+    tempo => tempo.name.toLowerCase().includes(search.toLowerCase())
+  )
+
+  const drawerWidth = 300
+
+  const useStyles = makeStyles({
+    root: {
+      display: 'flex',
+    },
+    drawer: {
+      width: drawerWidth,
+    },
+    drawerPaper: {
+      width: drawerWidth,
+    },
+    metronome: {
+      margin: 'auto',
+    },
+  })
+  const classes = useStyles()
   
   return (
-    <div>
-      <Typography
-        variant='h3'
-        color='primary'
-        align='center'
-        gutterBottom
+    <div className={classes.root}>
+      <Drawer
+        className={classes.drawer}
+        variant="permanent"
+        anchor="left"
+        classes={{ paper: classes.drawerPaper }}
       >
-        Metronome
-      </Typography>
-      <Metronome 
-        playing={playing} 
-        activeTempo={activeTempo}
-        onChange={handleTempoChange}  
-        onClick={handlePlayButtonClick}
-      />
-      <Typography
-        variant='h4'
-        color='primary'
-      >
-        Saved Tempos
-      </Typography>
-      <NewTempoForm
-        open={newTempoFormOpen}
-        onClick={handleClick} 
-        onClose={handleClose}
-        value={newTempoName}
-        onChange={handleNewTempoName}
-        sliderValue={newTempo}
-        onSliderChange={handleNewTempoSlider}
-        onInputChange={handleNewTempoInput}
-        onSubmit={AddTempo}
-      />
-      <Search value={search} onChange={handleSearch}/>
-      <Tempos tempos={filteredTempos} />
+        <Typography
+          variant='h4'
+          color='primary'
+        >
+          Saved Tempos
+        </Typography>
+        <NewTempoForm
+          open={newTempoFormOpen}
+          onClick={handleClick} 
+          onClose={handleClose}
+          value={newTempoName}
+          onChange={handleNewTempoName}
+          sliderValue={newTempo}
+          onSliderChange={handleNewTempoSlider}
+          onInputChange={handleNewTempoInput}
+          onSubmit={AddTempo}
+        />
+        <Search value={search} onChange={handleSearch}/>
+        <Tempos tempos={filteredTempos} />
+      </Drawer>
+      <div className={classes.metronome}>
+        <Typography
+          variant='h3'
+          color='primary'
+          align='center'
+          gutterBottom
+        >
+          Metronome
+        </Typography>
+        <Metronome 
+          playing={playing} 
+          activeTempo={activeTempo}
+          onChange={handleTempoChange}  
+          onClick={handlePlayButtonClick}
+        />
+      </div>
     </div>
   );
 }
