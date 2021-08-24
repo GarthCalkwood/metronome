@@ -3,6 +3,7 @@ import Search from './components/Search'
 import NewTempoForm from './components/NewTempoForm'
 import { Typography } from '@material-ui/core'
 import Tempos from './components/Tempos'
+import Metronome from './components/Metronome'
 
 const App = () => {
   const [tempos, setTempos] = useState([]) 
@@ -10,6 +11,8 @@ const App = () => {
   const [newTempoFormOpen, setNewTempoFormOpen] = useState(false)
   const [newTempo, setNewTempo] = useState(120)
   const [newTempoName, setNewTempoName] = useState('')
+  const [activeTempo, setActiveTempo] = useState(120)
+  const [playing, setPlaying] = useState(false)
 
   const handleSearch = event => setSearch(event.target.value)
   const handleClick = () => setNewTempoFormOpen(true)
@@ -34,11 +37,16 @@ const App = () => {
     setTempos(tempos.concat(newTempoObject))
     handleClose()
   }
-
+  const handleTempoChange = (event, newValue) => {
+    setActiveTempo(newValue)
+  }
+  const handlePlayButtonClick = (event) => {
+    setPlaying(!playing)
+  }
   const filteredTempos = tempos.filter(
     tempo => tempo.name.toLowerCase().includes(search.toLowerCase())
   )
-
+  
   return (
     <div>
       <Typography
@@ -49,6 +57,12 @@ const App = () => {
       >
         Metronome
       </Typography>
+      <Metronome 
+        playing={playing} 
+        activeTempo={activeTempo}
+        onChange={handleTempoChange}  
+        onClick={handlePlayButtonClick}
+      />
       <Typography
         variant='h4'
         color='primary'
