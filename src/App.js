@@ -4,6 +4,7 @@ import NewTempoForm from './components/NewTempoForm'
 import { Typography } from '@material-ui/core'
 import Tempos from './components/Tempos'
 import Metronome from './components/Metronome'
+import click1 from './audio/click1.wav'
 
 const App = () => {
   const [tempos, setTempos] = useState([]) 
@@ -13,6 +14,7 @@ const App = () => {
   const [newTempoName, setNewTempoName] = useState('')
   const [activeTempo, setActiveTempo] = useState(120)
   const [playing, setPlaying] = useState(false)
+  const [clickInterval, setClickInterval] = useState(0)
 
   const handleSearch = event => setSearch(event.target.value)
   const handleClick = () => setNewTempoFormOpen(true)
@@ -38,14 +40,33 @@ const App = () => {
     handleClose()
   }
   const handleTempoChange = (event, newValue) => {
+    if (playing) {
+      // reset clickInterval
+      clearInterval(clickInterval)
+      setClickInterval(setInterval(play, (60/newValue) * 1000))
+    }
     setActiveTempo(newValue)
+    
   }
   const handlePlayButtonClick = (event) => {
+    if (!playing) {
+      setClickInterval(setInterval(play, (60/activeTempo) * 1000))
+      play()
+    }
+    if (playing) {
+      clearInterval(clickInterval)
+    }
     setPlaying(!playing)
   }
   const filteredTempos = tempos.filter(
     tempo => tempo.name.toLowerCase().includes(search.toLowerCase())
   )
+
+  
+  const click = new Audio(click1)
+  const play = () => {
+    click.play()
+  }
   
   return (
     <div>

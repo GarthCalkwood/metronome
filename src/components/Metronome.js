@@ -29,7 +29,8 @@ const Metronome = ({ playing, activeTempo, onChange, onClick }) => {
       </Typography>
       <Slider 
         className={classes.slider}
-        max={300}
+        min={40}
+        max={200}
         value={activeTempo}
         onChange={onChange}
       />
