@@ -114,7 +114,7 @@ const App = () => {
           onSubmit={AddTempo}
         />
         <Search value={search} onChange={handleSearch}/>
-        <Tempos tempos={filteredTempos} />
+        <Tempos tempos={filteredTempos} onClick={handleTempoChange}/>
       </Drawer>
       <div className={classes.metronome}>
         <Typography
