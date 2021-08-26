@@ -34,10 +34,17 @@ const App = () => {
     setNewTempo(event.target.value)
   }
   const AddTempo = (event) => {
+    let tempoToAdd = newTempo
+    if (tempoToAdd > 200){
+      tempoToAdd = 200
+    }
+    if (tempoToAdd < 40){
+      tempoToAdd = 40
+    }
     const newTempoObject = {
       id: tempos.length,
       name: newTempoName,
-      tempo: newTempo,
+      tempo: tempoToAdd,
     }
     setTempos(tempos.concat(newTempoObject))
     handleClose()

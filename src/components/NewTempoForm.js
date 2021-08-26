@@ -32,7 +32,8 @@ const NewTempoForm = ({ open, onClick, onClose, value, onChange, sliderValue, on
           <Grid container spacing={2}>
             <Grid item xs>
               <Slider
-                max={300}
+                min={40}
+                max={200}
                 value={sliderValue}
                 onChange={onSliderChange}
               />
@@ -41,6 +42,11 @@ const NewTempoForm = ({ open, onClick, onClose, value, onChange, sliderValue, on
               <Input 
                 value={sliderValue}
                 onChange={onInputChange}
+                inputProps={{
+                  min: 40,
+                  max: 200,
+                  type: 'number'
+                }}
               />
             </Grid>
             <Grid item>
