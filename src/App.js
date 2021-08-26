@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Search from './components/Search'
 import NewTempoForm from './components/NewTempoForm'
 import Typography from '@material-ui/core/Typography'
@@ -7,6 +7,7 @@ import Metronome from './components/Metronome'
 import click1 from './audio/click1.wav'
 import Drawer from '@material-ui/core/Drawer'
 import { makeStyles } from '@material-ui/core'
+import axios from 'axios'
 
 const App = () => {
   const [tempos, setTempos] = useState([]) 
@@ -86,6 +87,15 @@ const App = () => {
       margin: 'auto',
     },
   })
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:3001/tempos')
+      .then(response => {
+        setTempos(response.data)
+      })
+  }, [])
+
   const classes = useStyles()
   
   return (

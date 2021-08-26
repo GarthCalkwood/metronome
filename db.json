@@ -1,0 +1,24 @@
+{
+  "tempos": [
+    {
+      "id": 0,
+      "name": "C Major Scale",
+      "tempo": 150
+    },
+    {
+      "id": 1,
+      "name": "G Major Scale",
+      "tempo": 140
+    },
+    {
+      "id": 2,
+      "name": "D Major Scale",
+      "tempo": 130
+    },
+    {
+      "id": 3,
+      "name": "A Major Scale",
+      "tempo": 125
+    }
+  ]
+}
