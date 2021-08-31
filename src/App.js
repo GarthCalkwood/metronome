@@ -42,11 +42,16 @@ const App = () => {
       tempoToAdd = 40
     }
     const newTempoObject = {
-      id: tempos.length,
       name: newTempoName,
       tempo: tempoToAdd,
     }
-    setTempos(tempos.concat(newTempoObject))
+    axios
+      .post('http://localhost:3001/tempos', newTempoObject)
+      .then(response => {
+        setTempos(tempos.concat(response.data))
+      })
+    
+
     handleClose()
   }
   const handleTempoChange = (event, newValue) => {
