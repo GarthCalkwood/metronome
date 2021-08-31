@@ -7,7 +7,7 @@ import Metronome from './components/Metronome'
 import click1 from './audio/click1.wav'
 import Drawer from '@material-ui/core/Drawer'
 import { makeStyles } from '@material-ui/core'
-import axios from 'axios'
+import tempoService from './services/tempos'
 
 const App = () => {
   const [tempos, setTempos] = useState([]) 
@@ -20,19 +20,25 @@ const App = () => {
   const [clickInterval, setClickInterval] = useState(0)
 
   const handleSearch = event => setSearch(event.target.value)
+
   const handleClick = () => setNewTempoFormOpen(true)
+
   const handleClose = () => {
     setNewTempoFormOpen(false)
     setNewTempo(120)
     setNewTempoName('')
   }
+
   const handleNewTempoName = event => setNewTempoName(event.target.value)
+
   const handleNewTempoSlider = (event, newValue) => {
     setNewTempo(newValue)
   }
+
   const handleNewTempoInput = (event) => {
     setNewTempo(event.target.value)
   }
+
   const AddTempo = (event) => {
     let tempoToAdd = newTempo
     if (tempoToAdd > 200){
@@ -45,15 +51,14 @@ const App = () => {
       name: newTempoName,
       tempo: tempoToAdd,
     }
-    axios
-      .post('http://localhost:3001/tempos', newTempoObject)
-      .then(response => {
-        setTempos(tempos.concat(response.data))
+    tempoService
+      .create(newTempoObject)
+      .then(returnedTempo => {
+        setTempos(tempos.concat(returnedTempo))
       })
-    
-
     handleClose()
   }
+
   const handleTempoChange = (event, newValue) => {
     if (playing) {
       // reset clickInterval
@@ -63,6 +68,7 @@ const App = () => {
     setActiveTempo(newValue)
     
   }
+
   const handlePlayButtonClick = (event) => {
     if (!playing) {
       setClickInterval(setInterval(play, (60/activeTempo) * 1000))
@@ -84,7 +90,6 @@ const App = () => {
   )
 
   const drawerWidth = 300
-
   const useStyles = makeStyles({
     root: {
       display: 'flex',
@@ -101,10 +106,10 @@ const App = () => {
   })
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/tempos')
-      .then(response => {
-        setTempos(response.data)
+    tempoService
+      .getAll()
+      .then(initialTempos => {
+        setTempos(initialTempos)  
       })
   }, [])
 
