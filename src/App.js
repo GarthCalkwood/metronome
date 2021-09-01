@@ -59,6 +59,16 @@ const App = () => {
     handleClose()
   }
 
+  const handleDeleteTempo = (event, id) => {
+    if(window.confirm("Are you sure?")) {
+      tempoService
+        .remove(id)
+        .then(response => {
+          setTempos(tempos.filter(tempo => tempo.id !== id))
+        })
+    }
+  }
+
   const handleTempoChange = (event, newValue) => {
     if (playing) {
       // reset clickInterval
@@ -141,7 +151,7 @@ const App = () => {
           onSubmit={AddTempo}
         />
         <Search value={search} onChange={handleSearch}/>
-        <Tempos tempos={filteredTempos} onClick={handleTempoChange}/>
+        <Tempos tempos={filteredTempos} onClick={handleTempoChange} onDelete={handleDeleteTempo}/>
       </Drawer>
       <div className={classes.metronome}>
         <Typography
