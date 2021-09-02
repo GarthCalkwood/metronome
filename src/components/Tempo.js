@@ -3,8 +3,9 @@ import Typography from '@material-ui/core/Typography'
 import ListItem from '@material-ui/core/ListItem'
 import Button from '@material-ui/core/Button'
 import DeleteIcon from '@material-ui/icons/Delete';
+import EditTempoForm from './EditTempoForm'
 
-const Tempo = ({ tempo, onClick, onDelete }) => {
+const Tempo = ({ tempo, onClick, onDelete, open, onEditButtonClick, onEditTempoFormClose, value, onChange, sliderValue, onSliderChange, onInputChange, onSubmit }) => {
   return (
     <ListItem button onClick={(event) => onClick(event, tempo.tempo)}>
       <Typography variant="body1" gutterBottom>
@@ -20,7 +21,18 @@ const Tempo = ({ tempo, onClick, onDelete }) => {
       >
         Delete
       </Button>
-
+      <EditTempoForm
+        tempo={tempo}
+        open={open}
+        onClick={onEditButtonClick} 
+        onClose={onEditTempoFormClose}
+        value={value}
+        onChange={onChange}
+        sliderValue={sliderValue}
+        onSliderChange={onSliderChange}
+        onInputChange={onInputChange}
+        onSubmit={onSubmit}
+      />
     </ListItem>
   )
 }

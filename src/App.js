@@ -18,13 +18,29 @@ const App = () => {
   const [activeTempo, setActiveTempo] = useState(120)
   const [playing, setPlaying] = useState(false)
   const [clickInterval, setClickInterval] = useState(0)
+  const [editTempoFormOpen, setEditTempoFormOpen] = useState(false)
+  const [tempoBeingEdited, setTempoBeingEdited] = useState(null)
 
   const handleSearch = event => setSearch(event.target.value)
 
-  const handleClick = () => setNewTempoFormOpen(true)
+  const handleNewTempoFormOpen = () => setNewTempoFormOpen(true)
 
-  const handleClose = () => {
+  const handleNewTempoFormClose = () => {
     setNewTempoFormOpen(false)
+    setNewTempo(120)
+    setNewTempoName('')
+  }
+
+  const handleEditTempoFormOpen = (event, tempo) => {
+    console.log("tempo: ", tempo)
+    setEditTempoFormOpen(true)
+    setNewTempo(tempo.tempo)
+    setNewTempoName(tempo.name)
+    setTempoBeingEdited(tempo)
+  }
+
+  const handleEditTempoFormClose = () => {
+    setEditTempoFormOpen(false)
     setNewTempo(120)
     setNewTempoName('')
   }
@@ -56,7 +72,32 @@ const App = () => {
       .then(returnedTempo => {
         setTempos(tempos.concat(returnedTempo))
       })
-    handleClose()
+    handleNewTempoFormClose()
+  }
+
+  const EditTempo = (event) => {
+    let tempoToAdd = newTempo
+    if (tempoToAdd > 200){
+      tempoToAdd = 200
+    }
+    if (tempoToAdd < 40){
+      tempoToAdd = 40
+    }
+    const newTempoObject = {
+      name: newTempoName,
+      tempo: tempoToAdd,
+    }
+    const indexBeingEdited = tempos.findIndex(tempo => tempo.id === tempoBeingEdited.id)
+    console.log("tempos 1: ", tempos)
+    tempoService
+      .update(tempoBeingEdited.id, newTempoObject)
+      .then(returnedTempo => {
+        const newTempos = tempos.slice()
+        newTempos.splice(indexBeingEdited, 1, returnedTempo)
+        setTempos(newTempos)
+      })
+    console.log(`Changing Tempo ${tempoBeingEdited.name}: ${tempoBeingEdited.tempo}BPM to ${newTempoName}: ${tempoToAdd}BPM`)
+    handleEditTempoFormClose()
   }
 
   const handleDeleteTempo = (event, id) => {
@@ -141,8 +182,8 @@ const App = () => {
         </Typography>
         <NewTempoForm
           open={newTempoFormOpen}
-          onClick={handleClick} 
-          onClose={handleClose}
+          onClick={handleNewTempoFormOpen} 
+          onClose={handleNewTempoFormClose}
           value={newTempoName}
           onChange={handleNewTempoName}
           sliderValue={newTempo}
@@ -151,7 +192,20 @@ const App = () => {
           onSubmit={AddTempo}
         />
         <Search value={search} onChange={handleSearch}/>
-        <Tempos tempos={filteredTempos} onClick={handleTempoChange} onDelete={handleDeleteTempo}/>
+        <Tempos 
+          tempos={filteredTempos} 
+          onClick={handleTempoChange} 
+          onDelete={handleDeleteTempo}
+          open={editTempoFormOpen}
+          onEditButtonClick={handleEditTempoFormOpen} 
+          onEditTempoFormClose={handleEditTempoFormClose}
+          value={newTempoName}
+          onChange={handleNewTempoName}
+          sliderValue={newTempo}
+          onSliderChange={handleNewTempoSlider}
+          onInputChange={handleNewTempoInput}
+          onSubmit={EditTempo}
+        />
       </Drawer>
       <div className={classes.metronome}>
         <Typography
