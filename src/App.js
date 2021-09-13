@@ -8,6 +8,10 @@ import click1 from './audio/click1.wav'
 import Drawer from '@material-ui/core/Drawer'
 import { makeStyles } from '@material-ui/core'
 import tempoService from './services/tempos'
+import Paper from '@material-ui/core/Paper'
+import Grid from '@material-ui/core/Grid'
+import Hidden from '@material-ui/core/Hidden'
+import MenuIcon from '@material-ui/icons/Menu';
 
 const App = () => {
   const [tempos, setTempos] = useState([]) 
@@ -140,22 +144,6 @@ const App = () => {
     tempo => tempo.name.toLowerCase().includes(search.toLowerCase())
   )
 
-  const drawerWidth = 300
-  const useStyles = makeStyles({
-    root: {
-      display: 'flex',
-    },
-    drawer: {
-      width: drawerWidth,
-    },
-    drawerPaper: {
-      width: drawerWidth,
-    },
-    metronome: {
-      margin: 'auto',
-    },
-  })
-
   useEffect(() => {
     tempoService
       .getAll()
@@ -164,66 +152,77 @@ const App = () => {
       })
   }, [])
 
-  const classes = useStyles()
-  
   return (
-    <div className={classes.root}>
-      <Drawer
-        className={classes.drawer}
-        variant="permanent"
-        anchor="left"
-        classes={{ paper: classes.drawerPaper }}
-      >
-        <Typography
-          variant='h4'
-          color='primary'
-        >
-          Saved Tempos
-        </Typography>
-        <NewTempoForm
-          open={newTempoFormOpen}
-          onClick={handleNewTempoFormOpen} 
-          onClose={handleNewTempoFormClose}
-          value={newTempoName}
-          onChange={handleNewTempoName}
-          sliderValue={newTempo}
-          onSliderChange={handleNewTempoSlider}
-          onInputChange={handleNewTempoInput}
-          onSubmit={AddTempo}
-        />
-        <Search value={search} onChange={handleSearch}/>
-        <Tempos 
-          tempos={filteredTempos} 
-          onClick={handleTempoChange} 
-          onDelete={handleDeleteTempo}
-          open={editTempoFormOpen}
-          onEditButtonClick={handleEditTempoFormOpen} 
-          onEditTempoFormClose={handleEditTempoFormClose}
-          value={newTempoName}
-          onChange={handleNewTempoName}
-          sliderValue={newTempo}
-          onSliderChange={handleNewTempoSlider}
-          onInputChange={handleNewTempoInput}
-          onSubmit={EditTempo}
-        />
-      </Drawer>
-      <div className={classes.metronome}>
-        <Typography
-          variant='h3'
-          color='primary'
-          align='center'
-          gutterBottom
-        >
-          Metronome
-        </Typography>
-        <Metronome 
-          playing={playing} 
-          activeTempo={activeTempo}
-          onChange={handleTempoChange}  
-          onClick={handlePlayButtonClick}
-        />
-      </div>
-    </div>
+    <Grid container>
+      <Grid item xs={2} md={4}>
+        <Hidden smDown>
+          <Drawer
+            variant="permanent"
+            anchor="left"
+          >
+            <Typography
+              variant='h4'
+              color='primary'
+            >
+              Saved Tempos
+            </Typography>
+            <NewTempoForm
+              open={newTempoFormOpen}
+              onClick={handleNewTempoFormOpen} 
+              onClose={handleNewTempoFormClose}
+              value={newTempoName}
+              onChange={handleNewTempoName}
+              sliderValue={newTempo}
+              onSliderChange={handleNewTempoSlider}
+              onInputChange={handleNewTempoInput}
+              onSubmit={AddTempo}
+            />
+            <Search value={search} onChange={handleSearch}/>
+            <Tempos 
+              tempos={filteredTempos} 
+              onClick={handleTempoChange} 
+              onDelete={handleDeleteTempo}
+              open={editTempoFormOpen}
+              onEditButtonClick={handleEditTempoFormOpen} 
+              onEditTempoFormClose={handleEditTempoFormClose}
+              value={newTempoName}
+              onChange={handleNewTempoName}
+              sliderValue={newTempo}
+              onSliderChange={handleNewTempoSlider}
+              onInputChange={handleNewTempoInput}
+              onSubmit={EditTempo}
+            />
+          </Drawer>
+        </Hidden>
+        <Hidden mdUp>
+          <Drawer
+            variant="permanent"
+            open
+          >
+            <MenuIcon />
+          </Drawer>
+        </Hidden>
+      </Grid>
+      <Grid item xs={8} md={4}>
+        <Paper>
+          <Typography
+            variant='h3'
+            color='primary'
+            align='center'
+            gutterBottom
+          >
+            Metronome
+          </Typography>
+          <Metronome 
+            playing={playing} 
+            activeTempo={activeTempo}
+            onChange={handleTempoChange}  
+            onClick={handlePlayButtonClick}
+          />
+        </Paper>
+      </Grid>
+      <Grid item xs={2} md={4}></Grid>
+    </Grid>
   );
 }
 

@@ -7,7 +7,7 @@ import EditTempoForm from './EditTempoForm'
 
 const Tempo = ({ tempo, onClick, onDelete, open, onEditButtonClick, onEditTempoFormClose, value, onChange, sliderValue, onSliderChange, onInputChange, onSubmit }) => {
   return (
-    <ListItem button onClick={(event) => onClick(event, tempo.tempo)}>
+    <ListItem divider button onClick={(event) => onClick(event, tempo.tempo)}>
       <Typography variant="body1" gutterBottom>
         {`Name: ${tempo.name}`}<br/>
         {`BPM: ${tempo.tempo}`}<br/>
