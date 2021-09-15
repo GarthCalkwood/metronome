@@ -11,6 +11,11 @@ You will need `node` and `npm` installed on your machine.
   ```bash
   $ git clone https://github.com/GarthCalkwood/metronome.git
   ```
+
+* Install dependencies:
+  ```
+  $ npm install
+  ```  
   
 * Run the server:
   ```
