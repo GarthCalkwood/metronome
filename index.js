@@ -9,6 +9,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(morgan(":method :url :status :res[content-length] - :response-time ms - :tempo"));
+app.use(express.static("client/build"));
 
 let tempos = [
   {
@@ -22,10 +23,6 @@ let tempos = [
     tempo: 120,
   },
 ]
-
-app.get("/", (req, res) => {
-  res.send("<h1>Metronome backend</h1>");
-})
 
 app.get("/info", (req, res) => {
   res.send(
