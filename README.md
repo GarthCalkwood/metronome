@@ -19,11 +19,12 @@ You will need `node` and `npm` installed on your machine.
   
 * Run the server:
   ```
-  $ npm run server
+  $ npm run dev
   ```  
 
 * Run the app:
   ```
+  $ cd client
   $ npm start
   ```
   
