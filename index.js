@@ -81,7 +81,7 @@ app.post("/api/tempos", (req, res) => {
   res.json(newTempo)
 })
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log("Running on port ", PORT);
 })
