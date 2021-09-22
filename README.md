@@ -17,16 +17,15 @@ You will need `node` and `npm` installed on your machine.
   $ npm install
   ```  
   
-* Run the server:
+* Build the UI:
   ```
-  $ npm run dev
+  $ npm run build:ui
   ```  
 
-* Run the app:
+* Run the application:
   ```
-  $ cd client
-  $ npm start
+  $ npm run dev
   ```
   
 * Visit the app: <br>
-  http://localhost:3000/
+  http://localhost:3001/
