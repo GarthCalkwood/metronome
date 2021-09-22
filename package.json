@@ -6,7 +6,10 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:ui": "cd client && rm -rf build && npm run build",
+    "deploy": "git push heroku master",
+    "logs:prod": "heroku logs --tail"
   },
   "author": "Garth Calkwood",
   "license": "ISC",
