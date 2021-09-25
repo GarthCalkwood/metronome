@@ -1,6 +1,8 @@
+require("dotenv").config();
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
+const Tempo = require("./models/tempo");
 
 morgan.token("tempo", (req, res) => JSON.stringify(req.body));
 
@@ -32,18 +34,15 @@ app.get("/info", (req, res) => {
 })
 
 app.get("/api/tempos", (req, res) => {
-  res.json(tempos);
+  Tempo.find({}).then(results => {
+    res.json(results);
+  })
 })
 
 app.get("/api/tempos/:id", (req, res) => {
-  const id = Number(req.params.id);
-  const tempo = tempos.find(tempo => tempo.id === id);
-
-  if (!tempo) {
-    res.status(404).end();
-  } else {
-    res.json(tempo);
-  }
+  Tempo.findById(req.params.id).then(tempo => {
+    res.json(tempo)
+  })
 })
 
 app.delete("/api/tempos/:id", (req, res) => {
@@ -67,18 +66,19 @@ app.post("/api/tempos", (req, res) => {
     })
   }
 
-  const newTempo = {
-    id: generateId(),
+  const newTempo = new Tempo({
     name: body.name,
     tempo: body.tempo ? body.tempo : 120,
-  };
+  });
 
-  tempos = tempos.concat(newTempo);
+  newTempo.save().then(result => {
+    console.log(`Added ${body.name}: ${body.tempo} BPM to saved tempos`);
+    res.json(newTempo);
+  })
 
-  res.json(newTempo)
 })
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log("Running on port ", PORT);
 })
