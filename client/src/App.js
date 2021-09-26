@@ -11,6 +11,7 @@ import tempoService from './services/tempos'
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
 import Hidden from '@material-ui/core/Hidden'
+import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu';
 
 const App = () => {
@@ -24,6 +25,7 @@ const App = () => {
   const [clickInterval, setClickInterval] = useState(0)
   const [editTempoFormOpen, setEditTempoFormOpen] = useState(false)
   const [tempoBeingEdited, setTempoBeingEdited] = useState(null)
+  const [drawerOpen, setDrawerOpen] = useState(false)
 
   const handleSearch = event => setSearch(event.target.value)
 
@@ -144,6 +146,47 @@ const App = () => {
     tempo => tempo.name.toLowerCase().includes(search.toLowerCase())
   )
 
+  const drawer = (
+    <div>
+      <Typography
+        variant='h4'
+        color='primary'
+      >
+        Saved Tempos
+      </Typography>
+      <NewTempoForm
+        open={newTempoFormOpen}
+        onClick={handleNewTempoFormOpen} 
+        onClose={handleNewTempoFormClose}
+        value={newTempoName}
+        onChange={handleNewTempoName}
+        sliderValue={newTempo}
+        onSliderChange={handleNewTempoSlider}
+        onInputChange={handleNewTempoInput}
+        onSubmit={AddTempo}
+      />
+      <Search value={search} onChange={handleSearch}/>
+      <Tempos 
+        tempos={filteredTempos} 
+        onClick={handleTempoChange} 
+        onDelete={handleDeleteTempo}
+        open={editTempoFormOpen}
+        onEditButtonClick={handleEditTempoFormOpen} 
+        onEditTempoFormClose={handleEditTempoFormClose}
+        value={newTempoName}
+        onChange={handleNewTempoName}
+        sliderValue={newTempo}
+        onSliderChange={handleNewTempoSlider}
+        onInputChange={handleNewTempoInput}
+        onSubmit={EditTempo}
+      />
+    </div>
+  )
+
+  const handleDrawerToggle = () => {
+    setDrawerOpen(!drawerOpen)
+  }
+
   useEffect(() => {
     tempoService
       .getAll()
@@ -155,51 +198,29 @@ const App = () => {
   return (
     <Grid container>
       <Grid item xs={2} md={4}>
+        <IconButton onClick={handleDrawerToggle}>
+          <MenuIcon />
+        </IconButton>
+        <Drawer
+          variant="temporary"
+          anchor="left"
+          open={drawerOpen}
+          onClose={handleDrawerToggle}
+          sx={{
+            display: { xs: 'block', sm: 'none' },
+          }}
+        >
+          {drawer}
+        </Drawer>
         <Hidden smDown>
           <Drawer
             variant="permanent"
-            anchor="left"
-          >
-            <Typography
-              variant='h4'
-              color='primary'
-            >
-              Saved Tempos
-            </Typography>
-            <NewTempoForm
-              open={newTempoFormOpen}
-              onClick={handleNewTempoFormOpen} 
-              onClose={handleNewTempoFormClose}
-              value={newTempoName}
-              onChange={handleNewTempoName}
-              sliderValue={newTempo}
-              onSliderChange={handleNewTempoSlider}
-              onInputChange={handleNewTempoInput}
-              onSubmit={AddTempo}
-            />
-            <Search value={search} onChange={handleSearch}/>
-            <Tempos 
-              tempos={filteredTempos} 
-              onClick={handleTempoChange} 
-              onDelete={handleDeleteTempo}
-              open={editTempoFormOpen}
-              onEditButtonClick={handleEditTempoFormOpen} 
-              onEditTempoFormClose={handleEditTempoFormClose}
-              value={newTempoName}
-              onChange={handleNewTempoName}
-              sliderValue={newTempo}
-              onSliderChange={handleNewTempoSlider}
-              onInputChange={handleNewTempoInput}
-              onSubmit={EditTempo}
-            />
-          </Drawer>
-        </Hidden>
-        <Hidden mdUp>
-          <Drawer
-            variant="permanent"
+            sx={{
+              display: { sm: 'none', md: 'block' },
+            }}
             open
           >
-            <MenuIcon />
+            {drawer} 
           </Drawer>
         </Hidden>
       </Grid>
