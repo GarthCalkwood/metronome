@@ -3,7 +3,6 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const Tempo = require("./models/tempo");
-const { response, request } = require("express");
 
 morgan.token("tempo", (req, res) => JSON.stringify(req.body));
 
@@ -13,26 +12,6 @@ app.use(express.json());
 app.use(cors());
 app.use(morgan(":method :url :status :res[content-length] - :response-time ms - :tempo"));
 app.use(express.static("client/build"));
-
-let tempos = [
-  {
-    id: 1,
-    name: "Moonlight Sonata",
-    tempo: 60,
-  },
-  {
-    id: 2,
-    name: "C major scale",
-    tempo: 120,
-  },
-]
-
-app.get("/info", (req, res) => {
-  res.send(
-    `<h3>There are ${tempos.length} saved tempos</h3>
-    <p>${new Date}</p>`
-  )
-})
 
 app.get("/api/tempos", (req, res) => {
   Tempo.find({}).then(results => {
@@ -56,11 +35,6 @@ app.delete("/api/tempos/:id", (req, res) => {
       res.status(400)
     })
 })
-
-const generateId = () => {
-  const maxId = Math.max(...tempos.map(tempo => tempo.id));
-  return maxId + 1;
-}
 
 app.post("/api/tempos", (req, res) => {
   const body = req.body;
