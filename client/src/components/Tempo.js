@@ -17,7 +17,7 @@ const Tempo = ({ tempo, onClick, onDelete, open, onEditButtonClick, onEditTempoF
         color="secondary" 
         size="small" 
         startIcon={<DeleteIcon />}
-        onClick={(e) => onDelete(e, tempo.id)}
+        onClick={(e) => onDelete(e, tempo._id)}
       >
         Delete
       </Button>

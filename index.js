@@ -3,6 +3,7 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const Tempo = require("./models/tempo");
+const { response, request } = require("express");
 
 morgan.token("tempo", (req, res) => JSON.stringify(req.body));
 
@@ -46,10 +47,14 @@ app.get("/api/tempos/:id", (req, res) => {
 })
 
 app.delete("/api/tempos/:id", (req, res) => {
-  const id = Number(req.params.id);
-  tempos = tempos.filter(tempo => tempo.id !== id);
-  
-  res.status(204).end();
+  Tempo.findByIdAndDelete(req.params.id)
+    .then(results => {
+      res.status(204).end()
+    })
+    .catch(error => {
+      console.log(error)
+      res.status(400)
+    })
 })
 
 const generateId = () => {

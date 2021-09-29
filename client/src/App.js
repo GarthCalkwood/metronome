@@ -93,10 +93,10 @@ const App = () => {
       name: newTempoName,
       tempo: tempoToAdd,
     }
-    const indexBeingEdited = tempos.findIndex(tempo => tempo.id === tempoBeingEdited.id)
+    const indexBeingEdited = tempos.findIndex(tempo => tempo._id === tempoBeingEdited._id)
     console.log("tempos 1: ", tempos)
     tempoService
-      .update(tempoBeingEdited.id, newTempoObject)
+      .update(tempoBeingEdited._id, newTempoObject)
       .then(returnedTempo => {
         const newTempos = tempos.slice()
         newTempos.splice(indexBeingEdited, 1, returnedTempo)
@@ -107,11 +107,13 @@ const App = () => {
   }
 
   const handleDeleteTempo = (event, id) => {
+    console.log("event: ", event);
+    console.log("id: ", id);
     if(window.confirm("Are you sure?")) {
       tempoService
         .remove(id)
         .then(response => {
-          setTempos(tempos.filter(tempo => tempo.id !== id))
+          setTempos(tempos.filter(tempo => tempo._id !== id))
         })
     }
   }

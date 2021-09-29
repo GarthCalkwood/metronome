@@ -7,7 +7,7 @@ const Tempos = ({ tempos, onClick, onDelete, open, onEditButtonClick, onEditTemp
     <List>
       {tempos.map(tempo => 
         <Tempo 
-          key={tempo.id} 
+          key={tempo._id} 
           tempo={tempo} 
           onClick={onClick} 
           onDelete={onDelete}
