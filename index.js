@@ -80,7 +80,24 @@ app.post("/api/tempos", (req, res) => {
     console.log(`Added ${body.name}: ${body.tempo} BPM to saved tempos`);
     res.json(newTempo);
   })
+})
 
+app.put("/api/tempos/:id", (req, res) => {
+  const body = req.body;
+
+  const newTempo = {
+    name: body.name,
+    tempo: body.tempo,
+  }
+
+  Tempo.findByIdAndUpdate(req.params.id, newTempo, {new: true})
+    .then(updatedTempo => {
+      res.json(updatedTempo)
+    })
+    .catch(error => {
+      console.log(error)
+      res.status(400)
+    })
 })
 
 const PORT = process.env.PORT;
