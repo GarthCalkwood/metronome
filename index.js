@@ -3,15 +3,17 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const Tempo = require("./models/tempo");
+const errorHandler = require("./middleware/errorHandler");
 
 morgan.token("tempo", (req, res) => JSON.stringify(req.body));
 
 const app = express();
 
+app.use(express.static("client/build"));
 app.use(express.json());
 app.use(cors());
 app.use(morgan(":method :url :status :res[content-length] - :response-time ms - :tempo"));
-app.use(express.static("client/build"));
+
 
 app.get("/api/tempos", (req, res) => {
   Tempo.find({}).then(results => {
@@ -19,21 +21,20 @@ app.get("/api/tempos", (req, res) => {
   })
 })
 
-app.get("/api/tempos/:id", (req, res) => {
-  Tempo.findById(req.params.id).then(tempo => {
-    res.json(tempo)
-  })
+app.get("/api/tempos/:id", (req, res, next) => {
+  Tempo.findById(req.params.id)
+    .then(tempo => {
+      res.json(tempo)
+    })
+    .catch(error => next(error))
 })
 
-app.delete("/api/tempos/:id", (req, res) => {
+app.delete("/api/tempos/:id", (req, res, next) => {
   Tempo.findByIdAndDelete(req.params.id)
     .then(results => {
       res.status(204).end()
     })
-    .catch(error => {
-      console.log(error)
-      res.status(400)
-    })
+    .catch(error => next(error))
 })
 
 app.post("/api/tempos", (req, res) => {
@@ -56,7 +57,7 @@ app.post("/api/tempos", (req, res) => {
   })
 })
 
-app.put("/api/tempos/:id", (req, res) => {
+app.put("/api/tempos/:id", (req, res, next) => {
   const body = req.body;
 
   const newTempo = {
@@ -68,11 +69,10 @@ app.put("/api/tempos/:id", (req, res) => {
     .then(updatedTempo => {
       res.json(updatedTempo)
     })
-    .catch(error => {
-      console.log(error)
-      res.status(400)
-    })
+    .catch(error => next(error))
 })
+
+app.use(errorHandler);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
