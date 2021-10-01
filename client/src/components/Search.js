@@ -1,6 +1,7 @@
 import React from 'react'
-import { InputAdornment, TextField } from '@material-ui/core'
-import SearchIcon from '@material-ui/icons/Search';
+import InputAdornment from '@mui/material/InputAdornment'
+import TextField from '@mui/material/TextField'
+import SearchIcon from '@mui/icons-material/Search';
 
 const Search = ({ value, onChange}) => {
   return (

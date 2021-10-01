@@ -1,18 +1,18 @@
 import React from 'react'
-import Button from '@material-ui/core/Button'
-import Dialog from '@material-ui/core/Dialog'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogActions from '@material-ui/core/DialogActions'
-import TextField from '@material-ui/core/TextField'
-import Slider from '@material-ui/core/Slider'
-import Typography from '@material-ui/core/Typography'
-import Grid from '@material-ui/core/Grid'
-import Input from '@material-ui/core/Input'
-import EditIcon from '@material-ui/icons/Edit';
+import Button from '@mui/material/Button'
+import Dialog from '@mui/material/Dialog'
+import DialogTitle from '@mui/material/DialogTitle'
+import DialogContent from '@mui/material/DialogContent'
+import DialogActions from '@mui/material/DialogActions'
+import TextField from '@mui/material/TextField'
+import Slider from '@mui/material/Slider'
+import Typography from '@mui/material/Typography'
+import Grid from '@mui/material/Grid'
+import Input from '@mui/material/Input'
+import EditIcon from '@mui/icons-material/Edit';
 
 const EditTempoForm = ({ tempo, open, onClick, onClose, value, onChange, sliderValue, onSliderChange, onInputChange, onSubmit }) => {
-  return (
+  return (  
     <div>
       <Button 
         variant="contained" 

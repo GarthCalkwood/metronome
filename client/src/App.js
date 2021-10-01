@@ -1,18 +1,17 @@
 import { useState, useEffect } from 'react'
 import Search from './components/Search'
 import NewTempoForm from './components/NewTempoForm'
-import Typography from '@material-ui/core/Typography'
 import Tempos from './components/Tempos'
 import Metronome from './components/Metronome'
-import click1 from './audio/click1.wav'
-import Drawer from '@material-ui/core/Drawer'
-import { makeStyles } from '@material-ui/core'
 import tempoService from './services/tempos'
-import Paper from '@material-ui/core/Paper'
-import Grid from '@material-ui/core/Grid'
-import Hidden from '@material-ui/core/Hidden'
-import IconButton from '@material-ui/core/IconButton'
-import MenuIcon from '@material-ui/icons/Menu';
+import click1 from './audio/click1.wav'
+import Drawer from '@mui/material/Drawer'
+import Typography from '@mui/material/Typography'
+import Paper from '@mui/material/Paper'
+import Grid from '@mui/material/Grid'
+import Hidden from '@mui/material/Hidden'
+import IconButton from '@mui/material/IconButton'
+import MenuIcon from '@mui/icons-material/Menu';
 
 const App = () => {
   const [tempos, setTempos] = useState([]) 

@@ -1,9 +1,9 @@
 import React from 'react'
-import Typography from '@material-ui/core/Typography'
-import ListItem from '@material-ui/core/ListItem'
-import Button from '@material-ui/core/Button'
-import DeleteIcon from '@material-ui/icons/Delete';
 import EditTempoForm from './EditTempoForm'
+import Typography from '@mui/material/Typography'
+import ListItem from '@mui/material/ListItem'
+import Button from '@mui/material/Button'
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const Tempo = ({ tempo, onClick, onDelete, open, onEditButtonClick, onEditTempoFormClose, value, onChange, sliderValue, onSliderChange, onInputChange, onSubmit }) => {
   return (

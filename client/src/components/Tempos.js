@@ -1,6 +1,6 @@
 import React from 'react'
 import Tempo from './Tempo'
-import List from '@material-ui/core/List'
+import List from '@mui/material/List'
 
 const Tempos = ({ tempos, onClick, onDelete, open, onEditButtonClick, onEditTempoFormClose, value, onChange, sliderValue, onSliderChange, onInputChange, onSubmit}) => {
   return (

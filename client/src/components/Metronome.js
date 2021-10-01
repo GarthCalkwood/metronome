@@ -1,10 +1,10 @@
 import React from 'react'
-import PlayArrowIcon from '@material-ui/icons/PlayArrow'
-import PauseIcon from '@material-ui/icons/Pause'
-import Slider from '@material-ui/core/Slider'
-import Fab from '@material-ui/core/Fab'
-import Typography from '@material-ui/core/Typography'
-import { makeStyles } from '@material-ui/core'
+import PlayArrowIcon from '@mui/icons-material/PlayArrow'
+import PauseIcon from '@mui/icons-material/Pause'
+import Slider from '@mui/material/Slider'
+import Fab from '@mui/material/Fab'
+import Typography from '@mui/material/Typography'
+import { makeStyles } from '@mui/styles'
 
 const useStyles = makeStyles({
   root: {
