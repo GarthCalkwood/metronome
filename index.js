@@ -37,7 +37,7 @@ app.delete("/api/tempos/:id", (req, res, next) => {
     .catch(error => next(error))
 })
 
-app.post("/api/tempos", (req, res) => {
+app.post("/api/tempos", (req, res, next) => {
   const body = req.body;
 
   if (!body.name) {
@@ -51,10 +51,11 @@ app.post("/api/tempos", (req, res) => {
     tempo: body.tempo ? body.tempo : 120,
   });
 
-  newTempo.save().then(result => {
-    console.log(`Added ${body.name}: ${body.tempo} BPM to saved tempos`);
-    res.json(newTempo);
-  })
+  newTempo.save()
+    .then(result => {
+      res.json(newTempo);
+    })
+    .catch(error => next(error))
 })
 
 app.put("/api/tempos/:id", (req, res, next) => {

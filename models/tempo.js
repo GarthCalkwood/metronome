@@ -11,8 +11,16 @@ mongoose.connect(url)
   });
 
 const tempoSchema = new mongoose.Schema({
-  name: String,
-  tempo: Number,
+  name: {
+    type: String,
+    required: true
+  },
+  tempo: {
+    type: Number,
+    min: 40,
+    max: 200,
+    required: true
+  }
 });
 
 module.exports = mongoose.model("Tempo", tempoSchema);
