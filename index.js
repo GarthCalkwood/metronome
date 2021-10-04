@@ -3,7 +3,7 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const Tempo = require("./models/tempo");
-const errorHandler = require("./middleware/errorHandler");
+const middleware = require("./utils/middleware");
 const logger = require("./utils/logger");
 
 morgan.token("tempo", (req, res) => JSON.stringify(req.body));
@@ -74,7 +74,7 @@ app.put("/api/tempos/:id", (req, res, next) => {
     .catch(error => next(error))
 })
 
-app.use(errorHandler);
+app.use(middleware.errorHandler);
 
 const PORT = config.PORT;
 app.listen(PORT, () => {
