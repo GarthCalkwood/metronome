@@ -1,4 +1,4 @@
-require("dotenv").config();
+const config = require("./utils/config");
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
@@ -75,7 +75,7 @@ app.put("/api/tempos/:id", (req, res, next) => {
 
 app.use(errorHandler);
 
-const PORT = process.env.PORT;
+const PORT = config.PORT;
 app.listen(PORT, () => {
   console.log("Running on port ", PORT);
 })
