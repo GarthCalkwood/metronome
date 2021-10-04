@@ -1,14 +1,15 @@
 const config = require("../utils/config");
+const logger = require("../utils/logger");
 const mongoose = require("mongoose");
 
 const url = config.MONGODB_URI;
 
 mongoose.connect(url)
   .then(result => {
-    console.log("connected to MongoDB");
+    logger.info("connected to MongoDB");
   })
   .catch(error => {
-    console.log("Error connecting to MongoDB: ", error.message);
+    logger.error("Error connecting to MongoDB: ", error.message);
   });
 
 const tempoSchema = new mongoose.Schema({

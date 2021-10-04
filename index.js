@@ -4,6 +4,7 @@ const morgan = require("morgan");
 const cors = require("cors");
 const Tempo = require("./models/tempo");
 const errorHandler = require("./middleware/errorHandler");
+const logger = require("./utils/logger");
 
 morgan.token("tempo", (req, res) => JSON.stringify(req.body));
 
@@ -77,5 +78,5 @@ app.use(errorHandler);
 
 const PORT = config.PORT;
 app.listen(PORT, () => {
-  console.log("Running on port ", PORT);
+  logger.info("Running on port ", PORT);
 })
