@@ -1,13 +1,13 @@
-const temposRouter = require("express").Router();
+const tempoRouter = require("express").Router();
 const Tempo = require("../models/tempo");
 
-temposRouter.get("/", (req, res) => {
+tempoRouter.get("/", (req, res) => {
   Tempo.find({}).then(results => {
     res.json(results);
   })
 })
 
-temposRouter.get("/:id", (req, res, next) => {
+tempoRouter.get("/:id", (req, res, next) => {
   Tempo.findById(req.params.id)
     .then(tempo => {
       res.json(tempo)
@@ -15,7 +15,7 @@ temposRouter.get("/:id", (req, res, next) => {
     .catch(error => next(error))
 })
 
-temposRouter.delete("/:id", (req, res, next) => {
+tempoRouter.delete("/:id", (req, res, next) => {
   Tempo.findByIdAndDelete(req.params.id)
     .then(results => {
       res.status(204).end()
@@ -23,7 +23,7 @@ temposRouter.delete("/:id", (req, res, next) => {
     .catch(error => next(error))
 })
 
-temposRouter.post("/", (req, res, next) => {
+tempoRouter.post("/", (req, res, next) => {
   const body = req.body;
 
   if (!body.name) {
@@ -44,7 +44,7 @@ temposRouter.post("/", (req, res, next) => {
     .catch(error => next(error))
 })
 
-temposRouter.put("/:id", (req, res, next) => {
+tempoRouter.put("/:id", (req, res, next) => {
   const body = req.body;
 
   const newTempo = {
@@ -59,4 +59,4 @@ temposRouter.put("/:id", (req, res, next) => {
     .catch(error => next(error))
 })
 
-module.exports = temposRouter
+module.exports = tempoRouter
