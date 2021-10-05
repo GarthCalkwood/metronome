@@ -1,5 +1,9 @@
 const logger = require("./logger");
 
+const unknownEndpoint = (req, res) => {
+  res.status(404).send({ error: "unknown endpoint" });
+};
+
 const errorHandler = (error, req, res, next) => {
   logger.error(error.message);
   
@@ -10,6 +14,6 @@ const errorHandler = (error, req, res, next) => {
   }
 
   next(error);
-}
+};
 
-module.exports = { errorHandler };
+module.exports = { unknownEndpoint, errorHandler };

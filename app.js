@@ -25,6 +25,7 @@ app.use(morgan(":method :url :status :res[content-length] - :response-time ms - 
 
 app.use("/api/tempos", tempoRouter);
 
+app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
 
 module.exports = app;
