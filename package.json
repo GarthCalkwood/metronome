@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cross-env NODE_ENV=prod node index.js",
+    "dev": "cross-env NODE_ENV=dev nodemon index.js",
+    "test": "cross-env NODE_ENV=test jest --verbose",
     "build:ui": "cd client && rm -rf build && npm run build",
     "deploy": "git push heroku master",
     "logs:prod": "heroku logs --tail"
@@ -23,6 +23,12 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.12"
+    "cross-env": "^7.0.3",
+    "jest": "^27.3.1",
+    "nodemon": "^2.0.12",
+    "supertest": "^6.1.6"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }
