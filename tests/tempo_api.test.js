@@ -33,7 +33,7 @@ test("a specific tempo can be retreived", async () => {
   const tempoToRetreive = tempos[0];
 
   const retreivedTempo = await api
-    .get(`/api/tempos/${tempoToRetreive._id}`)
+    .get(`/api/tempos/${tempoToRetreive.id}`)
     .expect(200)
     .expect("Content-Type", /application\/json/);
 
@@ -78,7 +78,7 @@ test("a tempo can be deleted", async () => {
   const tempoToDelete = temposAtStart[0];
 
   await api
-    .delete(`/api/tempos/${tempoToDelete._id}`)
+    .delete(`/api/tempos/${tempoToDelete.id}`)
     .expect(204);
 
   const temposAtEnd = await helper.temposInDb();
@@ -86,8 +86,8 @@ test("a tempo can be deleted", async () => {
 
   const tempoNames = temposAtEnd.map(tempo => tempo.name);
   expect(tempoNames).not.toContain(tempoToDelete.name);
-})
+});
 
 afterAll(() => {
   mongoose.connection.close();
-})
+});
