@@ -88,6 +88,27 @@ test("a tempo can be deleted", async () => {
   expect(tempoNames).not.toContain(tempoToDelete.name);
 });
 
+test("a tempo can be edited", async () => {
+  const temposAtStart = await helper.temposInDb();
+  const tempoToEdit = temposAtStart[0];
+
+  const newTempo = {
+    name: "edited",
+    tempo: 80
+  };
+
+  await api
+    .put(`/api/tempos/${tempoToEdit.id}`)
+    .send(newTempo)
+    .expect("Content-Type", /application\/json/);
+
+  const temposAtEnd = await helper.temposInDb();
+  const tempoNames = temposAtEnd.map(tempo => tempo.name);
+
+  expect(tempoNames).not.toContain(tempoToEdit.name);
+  expect(tempoNames).toContain(newTempo.name);
+});
+
 afterAll(() => {
   mongoose.connection.close();
 });
