@@ -9,7 +9,12 @@ tempoRouter.get("/", async (req, res) => {
 tempoRouter.get("/:id", async (req, res, next) => {
   try {
     const tempo = await Tempo.findById(req.params.id);
-    res.json(tempo);
+    if (tempo) {
+      res.json(tempo);
+    } else {
+      res.status(404).end();
+    }
+    
   } catch (err) {
     next(err);
   };
