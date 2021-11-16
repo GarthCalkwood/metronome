@@ -1,4 +1,5 @@
 const Tempo = require("../models/tempo");
+const User = require("../models/user");
 
 const initialTempos = [
   {
@@ -27,8 +28,14 @@ const temposInDb = async () => {
   return tempos.map(tempo => tempo.toJSON());
 };
 
+const usersInDb = async () => {
+  const users = await User.find({});
+  return users.map(user => user.toJSON());
+};
+
 module.exports = {
   initialTempos,
   nonExistingId,
-  temposInDb
+  temposInDb,
+  usersInDb
 };
