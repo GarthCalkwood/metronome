@@ -1,8 +1,11 @@
 const tempoRouter = require("express").Router();
 const Tempo = require("../models/tempo");
+const User = require("../models/user");
 
 tempoRouter.get("/", async (req, res) => {
-  const results = await Tempo.find({});
+  const results = await Tempo
+    .find({}).populate("user", {username: 1, name: 1});
+    
   res.json(results);
 });
 
@@ -14,7 +17,6 @@ tempoRouter.get("/:id", async (req, res, next) => {
     } else {
       res.status(404).end();
     }
-    
   } catch (err) {
     next(err);
   };
@@ -32,20 +34,19 @@ tempoRouter.delete("/:id", async (req, res, next) => {
 tempoRouter.post("/", async (req, res, next) => {
   const body = req.body;
 
-  if (!body.name) {
-    return res.status(400).json({
-      error: "name missing",
-    });
-  };
+  const user = await User.findById(body.userId);
 
   const newTempo = new Tempo({
     name: body.name,
     tempo: body.tempo ? body.tempo : 120,
+    user: user._id,
   });
 
   try {
-    await newTempo.save();
-    res.json(newTempo);
+    const savedTempo = await newTempo.save();
+    user.tempos = user.tempos.concat(savedTempo._id);
+    await user.save();
+    res.json(savedTempo);
   } catch (err) {
     next(err);
   };

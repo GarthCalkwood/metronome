@@ -10,6 +10,10 @@ const tempoSchema = new mongoose.Schema({
     min: 40,
     max: 200,
     required: true
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
   }
 });
 
