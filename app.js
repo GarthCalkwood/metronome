@@ -4,6 +4,7 @@ const morgan = require("morgan");
 const cors = require("cors");
 const tempoRouter = require("./controllers/tempos");
 const userRouter = require("./controllers/users");
+const loginRouter = require("./controllers/login");
 const middleware = require("./utils/middleware");
 const config = require("./utils/config");
 const logger = require("./utils/logger");
@@ -26,6 +27,7 @@ app.use(morgan(":method :url :status :res[content-length] - :response-time ms - 
 
 app.use("/api/tempos", tempoRouter);
 app.use("/api/users", userRouter);
+app.use("/api/login", loginRouter);
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
