@@ -1,6 +1,16 @@
 const tempoRouter = require("express").Router();
 const Tempo = require("../models/tempo");
 const User = require("../models/user");
+const jwt = require("jsonwebtoken");
+const { response } = require("express");
+
+const getTokenFrom = req => {
+  const authorization = req.get("authorization");
+  if (authorization && authorization.toLowerCase().startsWith("bearer ")){
+    return authorization.substring(7);
+  }
+  return null;
+};
 
 tempoRouter.get("/", async (req, res) => {
   const results = await Tempo
@@ -33,8 +43,13 @@ tempoRouter.delete("/:id", async (req, res, next) => {
 
 tempoRouter.post("/", async (req, res, next) => {
   const body = req.body;
-
-  const user = await User.findById(body.userId);
+  const token = getTokenFrom(req);
+  const decodedToken = jwt.verify(token, process.env.SECRET);
+  if (!token || !decodedToken.id) {
+    return response.status(401).json({ error: "token missing or invalid" })
+  }
+  
+  const user = await User.findById(decodedToken.id);
 
   const newTempo = new Tempo({
     name: body.name,
