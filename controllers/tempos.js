@@ -2,7 +2,6 @@ const tempoRouter = require("express").Router();
 const Tempo = require("../models/tempo");
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
-const { response } = require("express");
 
 const getTokenFrom = req => {
   const authorization = req.get("authorization");
@@ -19,34 +18,26 @@ tempoRouter.get("/", async (req, res) => {
   res.json(results);
 });
 
-tempoRouter.get("/:id", async (req, res, next) => {
-  try {
-    const tempo = await Tempo.findById(req.params.id);
-    if (tempo) {
-      res.json(tempo);
-    } else {
-      res.status(404).end();
-    }
-  } catch (err) {
-    next(err);
-  };
+tempoRouter.get("/:id", async (req, res) => {
+  const tempo = await Tempo.findById(req.params.id);
+  if (tempo) {
+    res.json(tempo);
+  } else {
+    res.status(404).end();
+  }
 });
 
-tempoRouter.delete("/:id", async (req, res, next) => {
-  try {
-    await Tempo.findByIdAndDelete(req.params.id);
-    res.status(204).end();
-  } catch (err) {
-    next(err);
-  };
+tempoRouter.delete("/:id", async (req, res) => {
+  await Tempo.findByIdAndDelete(req.params.id);
+  res.status(204).end();
 });
 
-tempoRouter.post("/", async (req, res, next) => {
+tempoRouter.post("/", async (req, res) => {
   const body = req.body;
   const token = getTokenFrom(req);
   const decodedToken = jwt.verify(token, process.env.SECRET);
   if (!token || !decodedToken.id) {
-    return response.status(401).json({ error: "token missing or invalid" })
+    return res.status(401).json({ error: "token missing or invalid" })
   }
   
   const user = await User.findById(decodedToken.id);
@@ -57,17 +48,13 @@ tempoRouter.post("/", async (req, res, next) => {
     user: user._id,
   });
 
-  try {
-    const savedTempo = await newTempo.save();
-    user.tempos = user.tempos.concat(savedTempo._id);
-    await user.save();
-    res.json(savedTempo);
-  } catch (err) {
-    next(err);
-  };
+  const savedTempo = await newTempo.save();
+  user.tempos = user.tempos.concat(savedTempo._id);
+  await user.save();
+  res.json(savedTempo);
 });
 
-tempoRouter.put("/:id", async (req, res, next) => {
+tempoRouter.put("/:id", async (req, res) => {
   const body = req.body;
 
   const newTempo = {
@@ -75,12 +62,8 @@ tempoRouter.put("/:id", async (req, res, next) => {
     tempo: body.tempo,
   };
 
-  try {
-    const updatedTempo = await Tempo.findByIdAndUpdate(req.params.id, newTempo, {new: true});
-    res.json(updatedTempo);
-  } catch (err) {
-    next(err);
-  }
+  const updatedTempo = await Tempo.findByIdAndUpdate(req.params.id, newTempo, {new: true});
+  res.json(updatedTempo);
 });
 
 module.exports = tempoRouter;
