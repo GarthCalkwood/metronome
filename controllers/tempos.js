@@ -28,17 +28,24 @@ tempoRouter.get("/:id", async (req, res) => {
 });
 
 tempoRouter.delete("/:id", async (req, res) => {
-  await Tempo.findByIdAndDelete(req.params.id);
-  res.status(204).end();
+  const token = getTokenFrom(req);
+  const decodedToken = jwt.verify(token, process.env.SECRET);
+
+  const user = await User.findById(decodedToken.id);
+  const tempoToDelete = await Tempo.findById(req.params.id);
+  
+  if (tempoToDelete.user.toString() === user.id){
+    await Tempo.findByIdAndDelete(req.params.id);
+    res.status(204).end();
+  } else {
+    res.status(401).end();
+  }
 });
 
 tempoRouter.post("/", async (req, res) => {
   const body = req.body;
   const token = getTokenFrom(req);
   const decodedToken = jwt.verify(token, process.env.SECRET);
-  if (!token || !decodedToken.id) {
-    return res.status(401).json({ error: "token missing or invalid" })
-  }
   
   const user = await User.findById(decodedToken.id);
 
