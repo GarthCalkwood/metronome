@@ -3,15 +3,14 @@ import Search from './components/Search'
 import NewTempoForm from './components/NewTempoForm'
 import Tempos from './components/Tempos'
 import Metronome from './components/Metronome'
+import Navbar from './components/Navbar'
+import Sidebar from './components/Sidebar'
 import tempoService from './services/tempos'
 import click1 from './audio/click1.wav'
-import Drawer from '@mui/material/Drawer'
 import Typography from '@mui/material/Typography'
-import Paper from '@mui/material/Paper'
 import Grid from '@mui/material/Grid'
-import Hidden from '@mui/material/Hidden'
-import IconButton from '@mui/material/IconButton'
-import MenuIcon from '@mui/icons-material/Menu';
+
+
 
 const App = () => {
   const [tempos, setTempos] = useState([]) 
@@ -197,54 +196,28 @@ const App = () => {
   }, [])
 
   return (
-    <Grid container>
-      <Grid item xs={2} md={4}>
-        <IconButton onClick={handleDrawerToggle}>
-          <MenuIcon />
-        </IconButton>
-        <Drawer
-          variant="temporary"
-          anchor="left"
-          open={drawerOpen}
-          onClose={handleDrawerToggle}
-          sx={{
-            display: { xs: 'block', sm: 'none' },
-          }}
-        >
-          {drawer}
-        </Drawer>
-        <Hidden smDown>
-          <Drawer
-            variant="permanent"
-            sx={{
-              display: { sm: 'none', md: 'block' },
-            }}
-            open
-          >
-            {drawer} 
-          </Drawer>
-        </Hidden>
-      </Grid>
-      <Grid item xs={8} md={4}>
-        <Paper>
-          <Typography
-            variant='h3'
-            color='primary'
-            align='center'
-            gutterBottom
-          >
-            Metronome
-          </Typography>
+    <div>
+      <Navbar onClick={handleDrawerToggle}/>
+      <Grid container>
+        <Grid item xs={2} md={4}>
+          <Sidebar 
+            drawer={drawer}
+            isOpen={drawerOpen}
+            onClose={handleDrawerToggle}
+            
+          />
+        </Grid>
+        <Grid item xs={8} md={4}>
           <Metronome 
             playing={playing} 
             activeTempo={activeTempo}
             onChange={handleTempoChange}  
             onClick={handlePlayButtonClick}
           />
-        </Paper>
+        </Grid>
+        <Grid item xs={2} md={4}></Grid>
       </Grid>
-      <Grid item xs={2} md={4}></Grid>
-    </Grid>
+    </div>
   );
 }
 
