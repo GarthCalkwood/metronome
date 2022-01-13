@@ -1,5 +1,5 @@
 # Metronome
-A simple metronome web app built with JavaScript, React, Node.js, Express.js, MongoDB, and Material UI.
+A full stack metronome web application built with React for the frontend, Node/Express for the backend, MongoDB for the database, and several other npm packages.
 
 ## Project Status
 This project is currently in development. Users can adjust the metronome's bpm with a slider, or they can save frequently used tempos and adjust the bpm with the click of a button. Users can also filter their saved tempos via search bar. User authentication and an improved UI are in progress.
