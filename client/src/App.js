@@ -24,6 +24,7 @@ const App = () => {
   const [editTempoFormOpen, setEditTempoFormOpen] = useState(false)
   const [tempoBeingEdited, setTempoBeingEdited] = useState(null)
   const [drawerOpen, setDrawerOpen] = useState(false)
+  const [loginFormOpen, setLoginFormOpen] = useState(false)
 
   const handleSearch = event => setSearch(event.target.value)
 
@@ -57,6 +58,14 @@ const App = () => {
 
   const handleNewTempoInput = (event) => {
     setNewTempo(event.target.value)
+  }
+
+  const handleLoginFormOpen = () => {
+    setLoginFormOpen(true);
+  }
+
+  const handleLoginFormClose = () => {
+    setLoginFormOpen(false);
   }
 
   const AddTempo = (event) => {
@@ -197,7 +206,12 @@ const App = () => {
 
   return (
     <div>
-      <Navbar onClick={handleDrawerToggle}/>
+      <Navbar 
+        onMenuClick={handleDrawerToggle}
+        loginFormOpen={loginFormOpen}
+        onLoginFormOpen={handleLoginFormOpen}
+        onLoginFormClose={handleLoginFormClose}
+      />
       <Grid container>
         <Grid item xs={2} md={4}>
           <Sidebar 

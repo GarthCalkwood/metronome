@@ -1,13 +1,13 @@
 import React from 'react';
+import LoginForm from './LoginForm';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 
-const Navbar = ( {onClick} ) => {
+const Navbar = ( {onMenuClick, loginFormOpen, onLoginFormOpen, onLoginFormClose, } ) => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -16,7 +16,7 @@ const Navbar = ( {onClick} ) => {
             size="large"
             edge="start"
             color="inherit"
-            onClick = {onClick}
+            onClick = {onMenuClick}
             aria-label="menu"
             sx={{ mr: 2 }}
           >
@@ -25,7 +25,12 @@ const Navbar = ( {onClick} ) => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Metronome
           </Typography>
-          <Button color="inherit">Login</Button>
+          <LoginForm
+            isOpen={loginFormOpen} 
+            onOpen={onLoginFormOpen}
+            onClose={onLoginFormClose}
+          />
+          
         </Toolbar>
       </AppBar>
     </Box>
