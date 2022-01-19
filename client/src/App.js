@@ -9,8 +9,7 @@ import tempoService from './services/tempos'
 import click1 from './audio/click1.wav'
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
-
-
+import loginService from './services/login'
 
 const App = () => {
   const [tempos, setTempos] = useState([]) 
@@ -25,6 +24,10 @@ const App = () => {
   const [tempoBeingEdited, setTempoBeingEdited] = useState(null)
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [loginFormOpen, setLoginFormOpen] = useState(false)
+  const [loginErrorMessage, setLoginErrorMessage] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [user, setUser] = useState(null);
 
   const handleSearch = event => setSearch(event.target.value)
 
@@ -66,6 +69,35 @@ const App = () => {
 
   const handleLoginFormClose = () => {
     setLoginFormOpen(false);
+    setLoginErrorMessage('');
+  }
+
+  const handleLogin = async event => {
+    event.preventDefault();
+
+    try {
+      const user = await loginService.login({
+        username, password,
+      });
+      setUser(user);
+      setUsername("");
+      setPassword("");
+      handleLoginFormClose();
+    } catch (e) {
+      setLoginErrorMessage("Incorrect username or password");
+    }
+  }
+
+  const handleLogout = () => {
+    setUser(null);
+  }
+
+  const handleUsernameChange = event => {
+    setUsername(event.target.value);
+  }
+
+  const handlePasswordChange = event => {
+    setPassword(event.target.value);
   }
 
   const AddTempo = (event) => {
@@ -132,7 +164,6 @@ const App = () => {
       setClickInterval(setInterval(play, (60/newValue) * 1000))
     }
     setActiveTempo(newValue)
-    
   }
 
   const handlePlayButtonClick = (event) => {
@@ -211,6 +242,12 @@ const App = () => {
         loginFormOpen={loginFormOpen}
         onLoginFormOpen={handleLoginFormOpen}
         onLoginFormClose={handleLoginFormClose}
+        handleLogin={handleLogin}
+        onUsernameChange={handleUsernameChange}
+        onPasswordChange={handlePasswordChange}
+        errorMessage={loginErrorMessage}
+        user={user}
+        handleLogout={handleLogout}
       />
       <Grid container>
         <Grid item xs={2} md={4}>
@@ -218,7 +255,6 @@ const App = () => {
             drawer={drawer}
             isOpen={drawerOpen}
             onClose={handleDrawerToggle}
-            
           />
         </Grid>
         <Grid item xs={8} md={4}>

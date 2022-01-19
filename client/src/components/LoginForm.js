@@ -11,8 +11,10 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from "@mui/material/Slide";
+import Alert from '@mui/material/Alert'
 import { makeStyles } from '@mui/styles';
 import CloseIcon from '@mui/icons-material/Close';
+
 
 const Transition = React.forwardRef((props, ref) => {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -25,8 +27,12 @@ const useStyles = makeStyles({
   }
 })
 
-const LoginForm = ({isOpen, onOpen, onClose}) => {
+const LoginForm = ({isOpen, onOpen, onClose, handleLogin, onUsernameChange, onPasswordChange, errorMessage}) => {
   const classes = useStyles()
+
+  const errorMessageDisplay = () => (
+    <Alert severity="error">{errorMessage}</Alert>
+  )
 
   return (
     <>
@@ -56,30 +62,43 @@ const LoginForm = ({isOpen, onOpen, onClose}) => {
           </Typography>
         </DialogTitle>
         <DialogContent>
-          <TextField
-            margin="dense"
-            id="username"
-            label="Username"
-            type="text"
-            fullWidth
-            variant="standard"
-          />
-          <TextField
-            margin="dense"
-            id="password"
-            label="Password"
-            type="password"
-            fullWidth
-            variant="standard"
-          />
-          <FormControlLabel 
-            control={
-              <Checkbox />
-            } 
-            sx={{ mt: 1 }}
-            label="Remember me" 
-          />
-          <Button variant="contained" fullWidth sx={{ my: 2 }} onClick={onClose}>Login</Button>
+          {errorMessage !== '' && errorMessageDisplay()}
+          <form>
+            <TextField
+              margin="dense"
+              id="username"
+              label="Username"
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={onUsernameChange}
+            />
+            <TextField
+              margin="dense"
+              id="password"
+              label="Password"
+              type="password"
+              fullWidth
+              variant="standard"
+              onChange={onPasswordChange}
+            />
+            <FormControlLabel
+              control={
+                <Checkbox />
+              }
+              sx={{ mt: 1 }}
+              label="Remember me"
+            />
+            <Button 
+              type="submit"
+              variant="contained" 
+              fullWidth 
+              sx={{ my: 2 }} 
+              onClick={handleLogin}
+            >
+              Login
+            </Button>
+          </form>
           <DialogContentText>
             Don't have an account? <Link
               component="button"

@@ -1,5 +1,6 @@
 import React from 'react';
 import LoginForm from './LoginForm';
+import UserDisplay from './UserDisplay';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -7,7 +8,27 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 
-const Navbar = ( {onMenuClick, loginFormOpen, onLoginFormOpen, onLoginFormClose, } ) => {
+const Navbar = ( {onMenuClick, loginFormOpen, onLoginFormOpen, onLoginFormClose, handleLogin, onUsernameChange, onPasswordChange, errorMessage, user, handleLogout} ) => {
+  
+  const loginForm = () => (
+    <LoginForm
+      isOpen={loginFormOpen} 
+      onOpen={onLoginFormOpen}
+      onClose={onLoginFormClose}
+      handleLogin={handleLogin}
+      onUsernameChange={onUsernameChange}
+      onPasswordChange={onPasswordChange}
+      errorMessage={errorMessage}
+    />
+  )
+
+  const userDisplay = () => (
+    <UserDisplay
+      user={user}
+      handleLogout={handleLogout}
+    />
+  )
+  
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -25,12 +46,10 @@ const Navbar = ( {onMenuClick, loginFormOpen, onLoginFormOpen, onLoginFormClose,
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Metronome
           </Typography>
-          <LoginForm
-            isOpen={loginFormOpen} 
-            onOpen={onLoginFormOpen}
-            onClose={onLoginFormClose}
-          />
-          
+          {user === null ?
+            loginForm() :
+            userDisplay()
+          }
         </Toolbar>
       </AppBar>
     </Box>
