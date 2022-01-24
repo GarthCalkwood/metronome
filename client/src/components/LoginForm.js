@@ -41,25 +41,28 @@ const LoginForm = ({isOpen, onOpen, onClose, handleLogin, onUsernameChange, onPa
       </Button>
       <Dialog classes={{paper: classes.paper}} open={isOpen} onClose={onClose} TransitionComponent={Transition}>
         <DialogTitle>
-          <IconButton
-            aria-label="close"
-            onClick={onClose}
-            sx={{
-              position: 'absolute',
-              right: 8,
-              top: 8,
-              color: (theme) => theme.palette.grey[500],
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
-          <Typography 
-            variant="h5"
-            align="center"
-            sx={{ mt: 2 }}
-          >
-            Login
-          </Typography>
+          <div>
+            <IconButton
+              aria-label="close"
+              onClick={onClose}
+              sx={{
+                position: 'absolute',
+                right: 8,
+                top: 8,
+                color: (theme) => theme.palette.grey[500],
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
+          
+            <Typography 
+              variant="h5"
+              align="center"
+              sx={{ mt: 2 }}
+            >
+              Login
+            </Typography>
+          </div>
         </DialogTitle>
         <DialogContent>
           {errorMessage !== '' && errorMessageDisplay()}
