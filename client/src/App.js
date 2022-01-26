@@ -6,10 +6,11 @@ import Metronome from './components/Metronome'
 import Navbar from './components/Navbar'
 import Sidebar from './components/Sidebar'
 import tempoService from './services/tempos'
+import loginService from './services/login'
 import click1 from './audio/click1.wav'
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
-import loginService from './services/login'
+
 
 const App = () => {
   const [tempos, setTempos] = useState([]) 
@@ -79,6 +80,7 @@ const App = () => {
       const user = await loginService.login({
         username, password,
       });
+      tempoService.setToken(user.token);
       setUser(user);
       setUsername("");
       setPassword("");
