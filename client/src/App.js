@@ -29,6 +29,7 @@ const App = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
+  const [rememberMeChecked, setRememberMeChecked] = useState(false);
 
   const handleSearch = event => setSearch(event.target.value)
 
@@ -73,6 +74,10 @@ const App = () => {
     setLoginErrorMessage('');
   }
 
+  const handleRememberMeChange = event => {
+    setRememberMeChecked(event.target.checked);
+  }
+
   const handleLogin = async event => {
     event.preventDefault();
 
@@ -80,6 +85,9 @@ const App = () => {
       const user = await loginService.login({
         username, password,
       });
+      if (rememberMeChecked){
+        window.localStorage.setItem("loggedInUser", JSON.stringify(user));
+      }
       tempoService.setToken(user.token);
       setUser(user);
       setUsername("");
@@ -91,6 +99,7 @@ const App = () => {
   }
 
   const handleLogout = () => {
+    window.localStorage.removeItem("loggedInUser");
     setUser(null);
   }
 
@@ -237,6 +246,15 @@ const App = () => {
       })
   }, [])
 
+  useEffect(() => {
+    const loggedInUserJSON = window.localStorage.getItem("loggedInUser");
+    if (loggedInUserJSON){
+      const loggedInUser = JSON.parse(loggedInUserJSON);
+      setUser(loggedInUser);
+      tempoService.setToken(loggedInUser.token);
+    }
+  }, [])
+
   return (
     <div>
       <Navbar 
@@ -247,6 +265,8 @@ const App = () => {
         handleLogin={handleLogin}
         onUsernameChange={handleUsernameChange}
         onPasswordChange={handlePasswordChange}
+        onCheckboxChange={handleRememberMeChange}
+        checked={rememberMeChecked}
         errorMessage={loginErrorMessage}
         user={user}
         handleLogout={handleLogout}

@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 
-const Navbar = ( {onMenuClick, loginFormOpen, onLoginFormOpen, onLoginFormClose, handleLogin, onUsernameChange, onPasswordChange, errorMessage, user, handleLogout} ) => {
+const Navbar = ( {onMenuClick, loginFormOpen, onLoginFormOpen, onLoginFormClose, handleLogin, onUsernameChange, onPasswordChange, onCheckboxChange, checked, errorMessage, user, handleLogout} ) => {
   
   const loginForm = () => (
     <LoginForm
@@ -18,6 +18,8 @@ const Navbar = ( {onMenuClick, loginFormOpen, onLoginFormOpen, onLoginFormClose,
       handleLogin={handleLogin}
       onUsernameChange={onUsernameChange}
       onPasswordChange={onPasswordChange}
+      onCheckboxChange={onCheckboxChange}
+      checked={checked}
       errorMessage={errorMessage}
     />
   )

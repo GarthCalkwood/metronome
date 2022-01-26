@@ -27,7 +27,7 @@ const useStyles = makeStyles({
   }
 })
 
-const LoginForm = ({isOpen, onOpen, onClose, handleLogin, onUsernameChange, onPasswordChange, errorMessage}) => {
+const LoginForm = ({isOpen, onOpen, onClose, handleLogin, onUsernameChange, onPasswordChange, onCheckboxChange, checked, errorMessage}) => {
   const classes = useStyles()
 
   const errorMessageDisplay = () => (
@@ -87,7 +87,10 @@ const LoginForm = ({isOpen, onOpen, onClose, handleLogin, onUsernameChange, onPa
             />
             <FormControlLabel
               control={
-                <Checkbox />
+                <Checkbox 
+                  checked={checked}
+                  onChange={onCheckboxChange}
+                />
               }
               sx={{ mt: 1 }}
               label="Remember me"
