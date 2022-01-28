@@ -1,5 +1,6 @@
 import React from 'react';
 import LoginForm from './LoginForm';
+import SignupForm from './SignupForm';
 import UserDisplay from './UserDisplay';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -7,21 +8,42 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import Button from '@mui/material/Button';
 
-const Navbar = ( {onMenuClick, loginFormOpen, onLoginFormOpen, onLoginFormClose, handleLogin, onUsernameChange, onPasswordChange, onCheckboxChange, checked, errorMessage, user, handleLogout} ) => {
+
+const Navbar = ( {onMenuClick, loginFormOpen, onLoginFormOpen, onLoginFormClose, handleLogin, onLoginUsernameChange, onLoginPasswordChange, onCheckboxChange, checked, errorMessage, user, handleLogout, signupFormOpen, onSignupFormOpen, onSignupFormClose, handleSignup, onSignupUsernameChange, onSignupPasswordChange, onSignupConfirmPasswordChange} ) => {
   
   const loginForm = () => (
     <LoginForm
       isOpen={loginFormOpen} 
-      onOpen={onLoginFormOpen}
       onClose={onLoginFormClose}
+      onSignupFormOpen={onSignupFormOpen}
       handleLogin={handleLogin}
-      onUsernameChange={onUsernameChange}
-      onPasswordChange={onPasswordChange}
+      onUsernameChange={onLoginUsernameChange}
+      onPasswordChange={onLoginPasswordChange}
       onCheckboxChange={onCheckboxChange}
       checked={checked}
       errorMessage={errorMessage}
     />
+  )
+
+  const signupForm = () => (
+    <SignupForm
+      isOpen={signupFormOpen} 
+      onClose={onSignupFormClose}
+      onLoginFormOpen={onLoginFormOpen}
+      handleSignup={handleSignup}
+      onUsernameChange={onSignupUsernameChange}
+      onPasswordChange={onSignupPasswordChange}
+      onConfirmPasswordChange={onSignupConfirmPasswordChange}
+      errorMessage={errorMessage}
+    />
+  ) 
+
+  const loginButton = () => (
+    <Button color="inherit" variant="outlined" onClick={onLoginFormOpen}>
+      Login
+    </Button>
   )
 
   const userDisplay = () => (
@@ -49,11 +71,13 @@ const Navbar = ( {onMenuClick, loginFormOpen, onLoginFormOpen, onLoginFormClose,
             Metronome
           </Typography>
           {user === null ?
-            loginForm() :
+            loginButton() :
             userDisplay()
           }
         </Toolbar>
       </AppBar>
+      {loginForm()}
+      {signupForm()}
     </Box>
   );
 }

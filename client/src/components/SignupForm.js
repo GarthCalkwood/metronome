@@ -2,8 +2,6 @@ import React from 'react';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Typography from "@mui/material/Typography";
 import Link from '@mui/material/Link';
 import Dialog from '@mui/material/Dialog';
@@ -27,7 +25,7 @@ const useStyles = makeStyles({
   }
 })
 
-const LoginForm = ({isOpen, onClose, onSignupFormOpen, handleLogin, onUsernameChange, onPasswordChange, onCheckboxChange, checked, errorMessage}) => {
+const SignupForm = ({isOpen, onClose, onLoginFormOpen, handleSignup, onUsernameChange, onPasswordChange, onConfirmPasswordChange, errorMessage}) => {
   const classes = useStyles()
 
   const errorMessageDisplay = () => (
@@ -55,7 +53,7 @@ const LoginForm = ({isOpen, onClose, onSignupFormOpen, handleLogin, onUsernameCh
             align="center"
             sx={{ mt: 2 }}
           >
-            Login
+            Sign Up
           </Typography>
         </div>
       </DialogTitle>
@@ -80,33 +78,33 @@ const LoginForm = ({isOpen, onClose, onSignupFormOpen, handleLogin, onUsernameCh
             variant="standard"
             onChange={onPasswordChange}
           />
-          <FormControlLabel
-            control={
-              <Checkbox 
-                checked={checked}
-                onChange={onCheckboxChange}
-              />
-            }
-            sx={{ mt: 1 }}
-            label="Remember me"
+          <TextField
+            margin="dense"
+            id="confirmPassword"
+            label="Confirm password"
+            type="password"
+            fullWidth
+            variant="standard"
+            onChange={onConfirmPasswordChange}
+            sx={{ mb: 3 }}
           />
           <Button 
             type="submit"
             variant="contained" 
             fullWidth 
             sx={{ my: 2 }} 
-            onClick={handleLogin}
+            onClick={handleSignup}
           >
-            Log in
+            Login
           </Button>
         </form>
         <DialogContentText>
-          Don't have an account? <Link
+          Already have an account? <Link
             component="button"
             variant="body2"
-            onClick={onSignupFormOpen}
+            onClick={onLoginFormOpen}
           >
-            Sign Up
+            Log In
           </Link>
         </DialogContentText>
       </DialogContent>        
@@ -114,4 +112,4 @@ const LoginForm = ({isOpen, onClose, onSignupFormOpen, handleLogin, onUsernameCh
   );
 }
 
-export default LoginForm;
+export default SignupForm;

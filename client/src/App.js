@@ -25,11 +25,15 @@ const App = () => {
   const [tempoBeingEdited, setTempoBeingEdited] = useState(null)
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [loginFormOpen, setLoginFormOpen] = useState(false)
-  const [loginErrorMessage, setLoginErrorMessage] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [loginUsername, setLoginUsername] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
   const [user, setUser] = useState(null);
   const [rememberMeChecked, setRememberMeChecked] = useState(false);
+  const [signupFormOpen, setSignupFormOpen] = useState(false);
+  const [signupUsername, setSignupUsername] = useState("");
+  const [signupPassword, setSignupPassword] = useState("");
+  const [signupConfirmPassword, setSignupConfirmPassword] = useState("");
 
   const handleSearch = event => setSearch(event.target.value)
 
@@ -66,12 +70,13 @@ const App = () => {
   }
 
   const handleLoginFormOpen = () => {
+    handleSignupFormClose();
     setLoginFormOpen(true);
   }
 
   const handleLoginFormClose = () => {
     setLoginFormOpen(false);
-    setLoginErrorMessage('');
+    setErrorMessage('');
   }
 
   const handleRememberMeChange = event => {
@@ -83,18 +88,19 @@ const App = () => {
 
     try {
       const user = await loginService.login({
-        username, password,
+        "username": loginUsername, 
+        "password": loginPassword,
       });
       if (rememberMeChecked){
         window.localStorage.setItem("loggedInUser", JSON.stringify(user));
       }
       tempoService.setToken(user.token);
       setUser(user);
-      setUsername("");
-      setPassword("");
+      setLoginUsername("");
+      setLoginPassword("");
       handleLoginFormClose();
     } catch (e) {
-      setLoginErrorMessage("Incorrect username or password");
+      setErrorMessage("Incorrect username or password");
     }
   }
 
@@ -103,12 +109,51 @@ const App = () => {
     setUser(null);
   }
 
-  const handleUsernameChange = event => {
-    setUsername(event.target.value);
+  const handleLoginUsernameChange = event => {
+    setLoginUsername(event.target.value);
   }
 
-  const handlePasswordChange = event => {
-    setPassword(event.target.value);
+  const handleLoginPasswordChange = event => {
+    setLoginPassword(event.target.value);
+  }
+
+  const handleSignup = event => {
+    event.preventDefault();
+    if (signupUsername.length < 2 || signupUsername.length > 20){
+      setErrorMessage("Username must be 2-20 characters long")
+      return;
+    }
+    if (signupPassword.length < 8 || signupConfirmPassword.length < 8){
+      setErrorMessage("Password must be at least 8 characters")
+      return;
+    }
+    if (signupPassword !== signupConfirmPassword){
+      setErrorMessage("Passwords must match");
+      return;
+    }
+    console.log("event: ", event);
+  }
+
+  const handleSignupUsernameChange = event => {
+    setSignupUsername(event.target.value);
+  }
+
+  const handleSignupPasswordChange = event => {
+    setSignupPassword(event.target.value);
+  }
+
+  const handleSignupConfirmPasswordChange = event => {
+    setSignupConfirmPassword(event.target.value);
+  }
+
+  const handleSignupFormOpen = () => {
+    handleLoginFormClose();
+    setSignupFormOpen(true);
+  }
+
+  const handleSignupFormClose = () => {
+    setSignupFormOpen(false);
+    setErrorMessage('');
   }
 
   const AddTempo = (event) => {
@@ -263,13 +308,20 @@ const App = () => {
         onLoginFormOpen={handleLoginFormOpen}
         onLoginFormClose={handleLoginFormClose}
         handleLogin={handleLogin}
-        onUsernameChange={handleUsernameChange}
-        onPasswordChange={handlePasswordChange}
+        onLoginUsernameChange={handleLoginUsernameChange}
+        onLoginPasswordChange={handleLoginPasswordChange}
         onCheckboxChange={handleRememberMeChange}
         checked={rememberMeChecked}
-        errorMessage={loginErrorMessage}
+        errorMessage={errorMessage}
         user={user}
         handleLogout={handleLogout}
+        signupFormOpen={signupFormOpen}
+        onSignupFormOpen={handleSignupFormOpen}
+        onSignupFormClose={handleSignupFormClose}
+        handleSignup={handleSignup}
+        onSignupUsernameChange={handleSignupUsernameChange}
+        onSignupPasswordChange={handleSignupPasswordChange}
+        onSignupConfirmPasswordChange={handleSignupConfirmPasswordChange}
       />
       <Grid container>
         <Grid item xs={2} md={4}>
